@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,24 +8,24 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <!-- Header Section -->
+<body>    <!-- Header Section -->
     <header class="header">
         <nav class="navbar">
-            <div class="nav-logo">Portfolio</div>
+            <a href="#" class="nav-logo">
+                <span class="gradient-text">Portfolio</span>
+            </a>
             <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#home" class="nav-link active"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#about" class="nav-link"><i class="fas fa-user"></i> About</a></li>
+                <li><a href="#skills" class="nav-link"><i class="fas fa-code"></i> Skills</a></li>
+                <li><a href="#projects" class="nav-link"><i class="fas fa-project-diagram"></i> Projects</a></li>
+                <li><a href="#contact" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
             </ul>
-            <div class="menu-btn">
-                <i class="fas fa-bars"></i>
-            </div>
+          
         </nav>
-    </header>    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
+    </header><!-- Hero Section -->    <section id="home" class="hero parallax-section">
+        <div class="parallax-overlay"></div>
+        <div class="hero-content parallax-content">
             <div class="profile-card">
                 <div class="profile-wrapper">
                     <div class="profile-image-container">
@@ -37,8 +37,11 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="profile-info">                    <h1 class="typing-text">Hello World! <span class="wave">👋</span></h1>                    <h2 class="name-text">I'm <span class="highlight gradient-text">Andika</span></h2>
+                </div>                <div class="profile-info">                    
+                    <div class="greeting">
+                        <h1 class="typing-text" data-text="Hello World!">Hello World! <span class="wave">👋</span></h1>
+                    </div>                 
+                    <h2 class="name-text">I'm <span class="highlight gradient-text">Andika</span></h2>
                     <p class="profession gradient-text">Full-Stack Developer & UI/UX Designer <span class="small-text">with AI</span></p>
                     <div class="bio-text">
                         <span class="gradient-text typing-effect">Turning Ideas into Digital Reality ✨</span>
@@ -56,21 +59,19 @@
                 </div>
             </div>
         </div>
-    </section>    <!-- About Section -->
-    <section id="about" class="about">
+    </section>    <!-- About Section -->    <section id="about" class="about parallax-section">
+        <div class="parallax-overlay"></div>
         <h2 class="section-title">About Me</h2>
         <div class="about-content">
-            <div class="about-cards">                <div class="about-card mindset" data-tilt>
+            <div class="about-cards">            <div class="about-card mindset parallax-card" data-tilt>
                     <i class="fas fa-brain"></i>
                     <h3>Mindset Growth</h3>
                     <p class="animated-text">"Tantangan adalah batu loncatan menuju kesuksesan. 🚀"</p>
-                </div>
-                <div class="about-card passion" data-tilt>
+                </div>                <div class="about-card passion parallax-card" data-tilt>
                     <i class="fas fa-fire"></i>
                     <h3>Pure Passion</h3>
                     <p class="animated-text">"Kreativitas tanpa batas, inovasi tiada henti. 💡"</p>
-                </div>
-                <div class="about-card mission" data-tilt>
+                </div>                <div class="about-card mission parallax-card" data-tilt>
                     <i class="fas fa-rocket"></i>
                     <h3>Clear Mission</h3>
                     <p class="animated-text">"Menciptakan solusi digital yang memberikan dampak. ✨"</p>
@@ -175,6 +176,84 @@
                         <div class="skill-level">
                             <div class="progress" data-percent="88"></div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>    <!-- Projects Section -->    
+    <section id="projects" class="projects parallax-section">
+        <div class="bg-animation">
+            <div class="cube"></div>
+            <div class="cube"></div>
+            <div class="cube"></div>
+            <div class="cube"></div>
+            <div class="cube"></div>
+        </div>
+        <div class="parallax-overlay"></div>
+        <video class="bg-video" autoplay loop muted playsinline poster="img/projects/dummy.png">
+            <source src="https://assets.codepen.io/3364143/7btrrd.mp4" type="video/mp4">
+        </video>
+        <h2 class="section-title">My Projects</h2>
+        <div class="projects-grid">
+            <!-- Web Development Projects -->
+            <div class="project-card parallax-card" data-category="web">                <div class="project-image">
+                    <img src="img/projects/web-project1.gif" alt="E-Commerce Platform" onerror="this.src='img/projects/dummy.png'; this.onerror=null;">
+                    <div class="project-overlay">
+                        <div class="project-links">
+                            <a href="#" class="project-link"><i class="fas fa-link"></i></a>
+                            <a href="#" class="project-github"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3>Modern E-Commerce Platform</h3>
+                    <p>A full-stack e-commerce solution with real-time inventory management.</p>
+                    <div class="project-tags">
+                        <span>React</span>
+                        <span>Node.js</span>
+                        <span>MongoDB</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UI/UX Projects -->            <div class="project-card parallax-card" data-category="ui">
+                <div class="project-image">
+                    <img src="img/projects/project2.png" alt="Mobile App Design">
+                    <div class="project-overlay">
+                        <div class="project-links">
+                            <a href="https://github.com/andikagithub1/WhistleBlower/tree/main" class="project-github"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3>WhistleBlower</h3>
+                    <p> Whistleblowing System ini adalah untuk menangani permasalahan pelaporan pelanggaran secara internal,
+                         memberikan solusi dan penyelesaian atas pelaporan pelanggaran internal, dan memberikan perlindungan terhadap pelapor pelanggaran terkait identitas dan substansi pelanggaran.</p>
+                    <div class="project-tags">
+                        <span>Figma</span>
+                        <span>Adobe XD</span>
+                        <span>Prototyping</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI/ML Projects -->            <div class="project-card parallax-card" data-category="ai">
+                <div class="project-image">
+                    <img src="img/projects/dummy.png" alt="AI Chat Assistant">
+                    <div class="project-overlay">
+                        <div class="project-links">
+                            <a href="#" class="project-link"><i class="fas fa-link"></i></a>
+                            <a href="#" class="project-github"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3>AI-Powered Chat Assistant</h3>
+                    <p>An intelligent chatbot using natural language processing.</p>
+                    <div class="project-tags">
+                        <span>Python</span>
+                        <span>TensorFlow</span>
+                        <span>NLP</span>
                     </div>
                 </div>
             </div>

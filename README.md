@@ -11,12 +11,14 @@ A modern, interactive portfolio website showcasing my journey as a Full-Stack De
 ## 🎯 Features
 
 - **Interactive UI Elements**
+
   - Smooth animations and transitions
   - Glass-morphism design elements
   - Responsive layout for all devices
   - Dynamic text effects
 
 - **Professional Sections**
+
   - 📝 About Me with personal journey
   - 💻 Comprehensive skills showcase
   - 🎨 Project portfolio display
@@ -40,12 +42,14 @@ A modern, interactive portfolio website showcasing my journey as a Full-Stack De
 ## 💫 Special Features
 
 1. **Modern Design**
+
    - Glass-morphism effects
    - Gradient animations
    - Smooth scrolling
    - Interactive cards
 
 2. **Professional Skills**
+
    - Web Development
    - UI/UX Design
    - Artificial Intelligence
@@ -60,6 +64,7 @@ A modern, interactive portfolio website showcasing my journey as a Full-Stack De
 ## 📱 Responsive Design
 
 The portfolio is fully responsive and works seamlessly across:
+
 - 💻 Desktop
 - 💪 Tablet
 - 📱 Mobile
@@ -93,4 +98,5 @@ Feel free to reach out if you have any questions or just want to connect:
 I'm always open to interesting conversations and opportunities. Feel free to reach out if you'd like to collaborate or just chat about technology!
 
 ---
+
 Made with 💻 and ❤️ by Andika
