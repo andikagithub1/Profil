@@ -1,237 +1,228 @@
-// Interactive Navbar
-const header = document.querySelector('.header');
-const menuBtn = document.querySelector('.menu-btn');
-const navLinks = document.querySelector('.nav-links');
-let lastScroll = 0;
-
-window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-    
-    if (currentScroll <= 0) {
-        header.classList.remove('scroll-up');
+// DOM Elements
+const UI = {
+    init() {
+        this.header = document.querySelector('.header');
+        this.menuBtn = document.querySelector('.menu-btn');
+        this.navLinks = document.querySelector('.nav-links');
+        this.contactForm = document.querySelector('.contact-form');
+        this.navLinksItems = document.querySelectorAll('.nav-link');
+        this.typingText = document.querySelector('.typing-text');
+        this.skillLevels = document.querySelectorAll('.progress');
+        this.projectFilters = document.querySelectorAll('.filter-btn');
+        this.projectCards = document.querySelectorAll('.project-card');
+        this.tiltElements = document.querySelectorAll('[data-tilt]');
     }
-    
-    if (currentScroll > lastScroll && !header.classList.contains('scroll-down')) {
-        header.classList.remove('scroll-up');
-        header.classList.add('scroll-down');
-    }
-    
-    if (currentScroll < lastScroll && header.classList.contains('scroll-down')) {
-        header.classList.remove('scroll-down');
-        header.classList.add('scroll-up');
-    }
-    
-    lastScroll = currentScroll;
-});
+};
 
-menuBtn.addEventListener('click', () => {
-    navLinks.classList.toggle('active');
-});
+// State Management
+const State = {
+    lastScroll: 0,
+    isMenuOpen: false,
+    isMobile: () => window.innerWidth <= 768
+};
 
-// Smooth Scrolling for Navigation Links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        navLinks.classList.remove('active');
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
+// Navigation Handling
+const Navigation = {
+    init() {
+        this.setupScrollHandler();
+        this.setupMobileMenu();
+        this.setupNavLinks();
+    },
+
+    setupScrollHandler() {
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll <= 0) {
+                UI.header.classList.remove('scroll-up');
+            }
+            
+            if (currentScroll > State.lastScroll && !UI.header.classList.contains('scroll-down')) {
+                UI.header.classList.remove('scroll-up');
+                UI.header.classList.add('scroll-down');
+            }
+            
+            if (currentScroll < State.lastScroll && UI.header.classList.contains('scroll-down')) {
+                UI.header.classList.remove('scroll-down');
+                UI.header.classList.add('scroll-up');
+            }
+            
+            State.lastScroll = currentScroll;
         });
-    });
-});
+    },    setupMobileMenu() {
+        if (UI.menuBtn) {
+            UI.menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                State.isMenuOpen = !State.isMenuOpen;
+                UI.navLinks.classList.toggle('active');
+                UI.menuBtn.classList.toggle('open');
+                document.body.classList.toggle('menu-open');
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (State.isMenuOpen && !e.target.closest('.navbar')) {
+                    State.isMenuOpen = false;
+                    UI.navLinks.classList.remove('active');
+                    UI.menuBtn.classList.remove('open');
+                    document.body.classList.remove('menu-open');
+                }
+            });
+
+            // Close menu when pressing Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && State.isMenuOpen) {
+                    State.isMenuOpen = false;
+                    UI.navLinks.classList.remove('active');
+                    UI.menuBtn.classList.remove('open');
+                    document.body.classList.remove('menu-open');
+                }
+            });
+        }
+    },
+
+    setupNavLinks() {
+        UI.navLinksItems.forEach(link => {
+            link.addEventListener('click', () => {
+                if (State.isMenuOpen) {
+                    State.isMenuOpen = false;
+                    UI.navLinks.classList.remove('active');
+                    UI.menuBtn.classList.remove('open');
+                }
+            });
+        });
+    }
+};
 
 // Typing Animation
-function initTypingAnimation() {
-    const typingText = document.querySelector('.typing-text');
-    if (!typingText) return;
-
-    const text = typingText.getAttribute('data-text');
-    typingText.innerHTML = '';
-    let i = 0;
-    let isDeleting = false;
-    let currentText = '';
-
-    function type() {
-        if (isDeleting) {
-            currentText = text.substring(0, --i);
-        } else {
-            currentText = text.substring(0, ++i);
+const TypingAnimation = {
+    init() {
+        if (UI.typingText) {
+            const text = UI.typingText.getAttribute('data-text');
+            this.startTyping(text);
         }
+    },
 
-        typingText.textContent = currentText;
+    startTyping(text) {
+        let isDeleting = false;
+        let charIndex = 0;
 
-        let typeSpeed = isDeleting ? 50 : 100;
+        const type = () => {
+            const currentText = text.substring(0, charIndex);
+            UI.typingText.textContent = currentText;
 
-        if (!isDeleting && i === text.length) {
-            typeSpeed = 2000; // Pause at end
-            isDeleting = true;
-        } else if (isDeleting && i === 0) {
-            isDeleting = false;
-            typeSpeed = 500; // Pause before starting again
-        }
+            let typeSpeed = isDeleting ? 50 : 100;
 
-        const cursor = document.createElement('span');
-        cursor.className = 'cursor';
-        cursor.innerHTML = '|';
-        typingText.innerHTML = currentText + ' <span class="wave">👋</span>';
-        
-        setTimeout(type, typeSpeed);
+            if (!isDeleting && charIndex === text.length) {
+                typeSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                typeSpeed = 500;
+            }
+
+            charIndex += isDeleting ? -1 : 1;
+            UI.typingText.innerHTML = currentText + ' <span class="wave">👋</span>';
+            
+            setTimeout(type, typeSpeed);
+        };
+
+        type();
     }
-
-    type();
-}
-
-// Start typing animation when the page loads
-document.addEventListener('DOMContentLoaded', initTypingAnimation);
-
-// Skill Progress Animation
-const skillLevels = document.querySelectorAll('.progress');
-
-function animateSkills() {
-    skillLevels.forEach(skill => {
-        const percent = skill.getAttribute('data-percent');
-        skill.style.width = percent + '%';
-    });
-}
-
-// Animate skills when they come into view
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            animateSkills();
-        }
-    });
-});
-
-observer.observe(document.querySelector('.skills'));
-
-// Form Submission
-const contactForm = document.querySelector('.contact-form');
-
-contactForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    // Here you would typically send the form data to a server
-    // For now, we'll just show a success message
-    alert('Thank you for your message! I will get back to you soon.');
-    contactForm.reset();
-});
-
-// Scroll-based Animation
-window.addEventListener('scroll', () => {
-    const header = document.querySelector('.header');
-    if (window.scrollY > 50) {
-        header.style.background = 'rgba(255, 255, 255, 0.98)';
-    } else {
-        header.style.background = 'rgba(255, 255, 255, 0.95)';
-    }
-});
-
-// Enhanced skill cards animation
-const skillCards = document.querySelectorAll('.skill-card');
-
-skillCards.forEach(card => {
-    card.addEventListener('mouseenter', () => {
-        card.style.transform = 'translateY(-10px) scale(1.02)';
-        card.style.boxShadow = '0 10px 25px rgba(0, 123, 255, 0.3)';
-    });
-
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'translateY(0) scale(1)';
-        card.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
-    });
-});
+};
 
 // Project Filtering
-const filterButtons = document.querySelectorAll('.filter-btn');
-const projectCards = document.querySelectorAll('.project-card');
-
-filterButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        // Remove active class from all buttons
-        filterButtons.forEach(button => button.classList.remove('active'));
-        // Add active class to clicked button
-        btn.classList.add('active');
-        
-        const filter = btn.getAttribute('data-filter');
-        
-        projectCards.forEach(card => {
-            // Get card category
-            const category = card.getAttribute('data-category');
-            
-            // First set opacity to 0
-            card.style.opacity = '0';
-            card.style.transform = 'scale(0.8)';
-            
-            setTimeout(() => {
-                // Show/hide based on filter
-                if (filter === 'all' || category === filter) {
-                    card.style.display = 'block';
-                    // Use timeout to create animation effect
-                    setTimeout(() => {
-                        card.style.opacity = '1';
-                        card.style.transform = 'scale(1)';
-                    }, 50);
-                } else {
-                    card.style.display = 'none';
-                }
-            }, 300);
+const ProjectFilter = {
+    init() {
+        UI.projectFilters.forEach(button => {
+            button.addEventListener('click', () => {
+                const filter = button.getAttribute('data-filter');
+                this.filterProjects(filter);
+                this.updateActiveButton(button);
+            });
         });
-    });
-});
+    },
 
-// Resume Download
-document.getElementById('downloadResume').addEventListener('click', (e) => {
-    e.preventDefault();
-    // Add your resume download logic here
-    alert('Resume download feature will be implemented soon!');
-});
-
-// Enhanced Vanilla Tilt
-VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
-    max: 15,
-    speed: 400,
-    glare: true,
-    "max-glare": 0.2,
-});
-
-// Parallax Effect
-document.addEventListener('DOMContentLoaded', function() {
-    const parallaxSections = document.querySelectorAll('.parallax-section');
-    
-    window.addEventListener('scroll', function() {
-        parallaxSections.forEach(section => {
-            const distance = window.pageYOffset;
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
-            
-            if (distance > sectionTop - window.innerHeight && distance < sectionTop + sectionHeight) {
-                const parallaxSpeed = 0.5;
-                const yPos = -(distance - sectionTop) * parallaxSpeed;
-                section.style.backgroundPositionY = `${yPos}px`;
+    filterProjects(filter) {
+        UI.projectCards.forEach(card => {
+            const category = card.getAttribute('data-category');
+            if (filter === 'all' || filter === category) {
+                card.style.display = 'block';
+                setTimeout(() => card.style.opacity = '1', 100);
+            } else {
+                card.style.opacity = '0';
+                setTimeout(() => card.style.display = 'none', 300);
             }
         });
-    });
-    
-    // Parallax Cards Effect
-    const cards = document.querySelectorAll('.parallax-card');
-    
-    cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            const rotateX = (y - centerY) / 20;
-            const rotateY = (centerX - x) / 20;
-            
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+    },
+
+    updateActiveButton(activeButton) {
+        UI.projectFilters.forEach(button => {
+            button.classList.remove('active');
         });
-        
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+        activeButton.classList.add('active');
+    }
+};
+
+// Tilt Animation
+const TiltAnimation = {
+    init() {
+        this.setupTilt();
+        window.addEventListener('resize', () => this.handleResize());
+    },
+
+    setupTilt() {
+        if (!State.isMobile()) {
+            UI.tiltElements.forEach(element => {
+                if (!element.vanillaTilt) {
+                    VanillaTilt.init(element, {
+                        max: 10,
+                        speed: 400,
+                        glare: true,
+                        'max-glare': 0.3
+                    });
+                }
+            });
+        }
+    },
+
+    handleResize() {
+        if (State.isMobile()) {
+            this.destroyTilt();
+        } else {
+            this.setupTilt();
+        }
+    },
+
+    destroyTilt() {
+        UI.tiltElements.forEach(element => {
+            if (element.vanillaTilt) {
+                element.vanillaTilt.destroy();
+            }
         });
-    });
+    }
+};
+
+// Form Handling
+const FormHandler = {
+    init() {
+        if (UI.contactForm) {
+            UI.contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                // Handle form submission
+                alert('Thank you for your message! I will get back to you soon.');
+                UI.contactForm.reset();
+            });
+        }
+    }
+};
+
+// Initialize Everything
+document.addEventListener('DOMContentLoaded', () => {
+    UI.init();
+    Navigation.init();
+    TypingAnimation.init();
+    ProjectFilter.init();
+    TiltAnimation.init();
+    FormHandler.init();
 });
