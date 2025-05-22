@@ -86,7 +86,7 @@ Feel free to reach out if you have any questions or just want to connect:
 
 - GitHub: [@andikagithub1](https://github.com/andikagithub1)
 - Instagram: [@kryo_002](https://www.instagram.com/kryo_002/)
-- Email: [your.email@example.com](mailto:your.email@example.com)
+- Email: [prandika775@gmail.com](mailto:your.prandika775@gmail.com)
 
 ## 🌟 Let's Connect!
 
